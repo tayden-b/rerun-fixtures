@@ -1,0 +1,94 @@
+name: terraform
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  TF_IN_AUTOMATION: "true"
+  TF_WORKSPACE_NAME: rerun-fixtures
+
+jobs:
+  apply:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: terraform-apply-rerun-fixtures
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.14.9
+          terraform_wrapper: false
+          cli_config_credentials_token: ${{ secrets.TFE_TOKEN }}
+
+      - name: terraform init
+        id: init
+        continue-on-error: true
+        run: terraform init -input=false
+
+      - name: terraform apply
+        if: steps.init.outcome == 'success'
+        run: terraform apply -auto-approve -input=false
+
+      # A CLI-driven run can't start when init fails locally, so the failure would never
+      # reach HCP Terraform. Upload the same configuration through the API instead; the
+      # remote run then fails at its own init and is recorded in the workspace.
+      - name: queue remote run (local init failed)
+        if: steps.init.outcome == 'failure'
+        env:
+          TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+          TFE_ORG: ${{ vars.TFE_ORG }}
+          RUN_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          api="https://app.terraform.io/api/v2"
+          auth=(-H "Authorization: Bearer ${TFE_TOKEN}" -H "Content-Type: application/vnd.api+json")
+          ws_id="$(curl -sSf "${auth[@]}" "${api}/organizations/${TFE_ORG}/workspaces/${TF_WORKSPACE_NAME}" | jq -r '.data.id')"
+          cv="$(curl -sSf "${auth[@]}" -X POST "${api}/workspaces/${ws_id}/configuration-versions" \
+            --data '{"data":{"type":"configuration-versions","attributes":{"auto-queue-runs":false}}}')"
+          cv_id="$(jq -r '.data.id' <<<"$cv")"
+          tar -czf "${RUNNER_TEMP}/config.tar.gz" --exclude=./.git --exclude=./.terraform .
+          curl -sSf -X PUT -H "Content-Type: application/octet-stream" \
+            --data-binary @"${RUNNER_TEMP}/config.tar.gz" "$(jq -r '.data.attributes["upload-url"]' <<<"$cv")"
+          for _ in $(seq 1 30); do
+            [[ "$(curl -sSf "${auth[@]}" "${api}/configuration-versions/${cv_id}" | jq -r '.data.attributes.status')" == "uploaded" ]] && break
+            sleep 2
+          done
+          payload="$(jq -n --arg ws "$ws_id" --arg cv "$cv_id" --arg msg "${RUN_MESSAGE%%$'\n'*}" '{data: {type: "runs",
+            attributes: {message: $msg},
+            relationships: {workspace: {data: {type: "workspaces", id: $ws}},
+              "configuration-version": {data: {type: "configuration-versions", id: $cv}}}}}')"
+          run_id="$(curl -sSf "${auth[@]}" -X POST "${api}/runs" --data "$payload" | jq -r '.data.id')"
+          echo "Queued ${run_id}: https://app.terraform.io/app/${TFE_ORG}/workspaces/${TF_WORKSPACE_NAME}/runs/${run_id}"
+
+      - name: fail on init error
+        if: steps.init.outcome == 'failure'
+        run: |
+          echo "terraform init failed locally; see the remote run for the same error."
+          exit 1
+
+  plan:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.14.9
+          terraform_wrapper: false
+          cli_config_credentials_token: ${{ secrets.TFE_TOKEN }}
+
+      - name: terraform init
+        run: terraform init -input=false
+
+      - name: terraform plan
+        run: terraform plan -input=false
