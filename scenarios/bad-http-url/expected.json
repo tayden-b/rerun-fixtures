@@ -1,0 +1,14 @@
+{
+  "name": "bad-http-url",
+  "failureClass": "provider_api_error",
+  "stage": "plan",
+  "route": "autoPr",
+  "fixTouches": [
+    "variables.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf",
+    "main.tf"
+  ],
+  "humanSummary": "The health-check URL host became `httpbin.invalid`, which can never resolve, so the http provider's request fails while reading `data.http.upstream` during plan."
+}

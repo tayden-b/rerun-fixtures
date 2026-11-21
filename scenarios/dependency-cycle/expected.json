@@ -1,0 +1,13 @@
+{
+  "name": "dependency-cycle",
+  "failureClass": "dependency_cycle",
+  "stage": "plan",
+  "route": "autoPr",
+  "fixTouches": [
+    "main.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf"
+  ],
+  "humanSummary": "`random_pet.cluster` now uses `random_id.release.hex` in its prefix, while `random_id.release` already keeps on `random_pet.cluster.id`; the two resources depend on each other."
+}

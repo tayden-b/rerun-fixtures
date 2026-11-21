@@ -1,0 +1,14 @@
+{
+  "name": "module-source-typo",
+  "failureClass": "module_source",
+  "stage": "init",
+  "route": "draftPr",
+  "fixTouches": [
+    "main.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf",
+    "modules/naming/main.tf"
+  ],
+  "humanSummary": "`module \"worker_name\"` points at `./modules/namig`, which does not exist, so `terraform init` cannot install the module."
+}

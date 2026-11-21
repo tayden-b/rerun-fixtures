@@ -1,0 +1,13 @@
+{
+  "name": "removed-argument",
+  "failureClass": "config_syntax",
+  "stage": "plan",
+  "route": "autoPr",
+  "fixTouches": [
+    "main.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf"
+  ],
+  "humanSummary": "`tls_self_signed_cert.platform` sets `key_algorithm`, which tls v4 turned into a read-only attribute (it was an argument in v3); the pinned provider rejects it."
+}

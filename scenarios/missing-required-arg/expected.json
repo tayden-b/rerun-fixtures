@@ -1,0 +1,13 @@
+{
+  "name": "missing-required-arg",
+  "failureClass": "config_syntax",
+  "stage": "plan",
+  "route": "autoPr",
+  "fixTouches": [
+    "main.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf"
+  ],
+  "humanSummary": "The `byte_length` argument was deleted from `random_id.release`; Terraform rejects the resource because a required argument is missing."
+}

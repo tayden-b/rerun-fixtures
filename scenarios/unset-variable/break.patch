@@ -1,0 +1,12 @@
+diff --git a/variables.tf b/variables.tf
+index a282e70..b5340fa 100644
+--- a/variables.tf
++++ b/variables.tf
+@@ -1,7 +1,6 @@
+ variable "environment" {
+   description = "Deployment environment used in names and tags."
+   type        = string
+-  default     = "demo"
+ }
+ 
+ variable "team" {

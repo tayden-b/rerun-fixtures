@@ -1,0 +1,13 @@
+diff --git a/main.tf b/main.tf
+index 587d2e7..949450a 100644
+--- a/main.tf
++++ b/main.tf
+@@ -18,7 +18,7 @@ module "api_name" {
+ }
+ 
+ module "worker_name" {
+-  source = "./modules/naming"
++  source = "./modules/namig"
+ 
+   prefix    = local.name_prefix
+   component = "worker"

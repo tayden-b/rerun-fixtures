@@ -1,0 +1,14 @@
+{
+  "name": "check-block-failure",
+  "failureClass": "precondition_failed",
+  "stage": "plan",
+  "route": "autoPr",
+  "fixTouches": [
+    "variables.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf",
+    "checks.tf"
+  ],
+  "humanSummary": "The certificate validity default dropped from 2160h to 216h (a lost digit), below the 720h guardrail in `checks.tf`. The `check \"certificate_validity\"` block warns and the matching `release_gate` precondition stops the plan."
+}
