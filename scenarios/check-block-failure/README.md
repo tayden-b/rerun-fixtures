@@ -10,7 +10,8 @@ The run ends `errored` during the plan phase of the HCP Terraform run:
 
 ```
 Error: Resource precondition failed
-Release gate: certificate validity (216h) is below the 720h minimum. (preceded by `Warning: Check block assertion failed` from check "certificate_validity")
+Release gate: certificate validity (216h) is below the 720h minimum.
+(the plan also shows `Warning: Check block assertion failed` from check "certificate_validity")
 ```
 
 The certificate validity default dropped from 2160h to 216h (a lost digit), below the 720h guardrail in `checks.tf`. The `check "certificate_validity"` block warns and the matching `release_gate` precondition stops the plan.

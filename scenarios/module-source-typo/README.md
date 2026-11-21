@@ -10,7 +10,9 @@ The run ends `errored` during `terraform init` (the plan phase of the HCP Terraf
 
 ```
 Error: Unreadable module directory
-Unable to evaluate directory symlink: lstat modules/namig: no such file or directory (followed by `The directory could not be read for module "worker_name" at main.tf`)
+Unable to evaluate directory symlink: lstat modules/namig: no such file or directory
+The directory  could not be read for module "worker_name" at main.tf:20.
+Operation failed: failed running terraform init (exit 1)
 ```
 
 `module "worker_name"` points at `./modules/namig`, which does not exist, so `terraform init` cannot install the module.

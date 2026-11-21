@@ -18,7 +18,7 @@ assert_clean_main() {
   [[ "$(git rev-parse --abbrev-ref HEAD)" == "main" ]] || die "check out main first"
   [[ -z "$(git status --porcelain --untracked-files=no)" ]] || die "working tree has uncommitted changes"
   git fetch -q origin main
-  [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/main)" ]] || die "main is not in sync with origin/main (git pull --ff-only)"
+  [[ "$(git rev-parse HEAD)" == "$(git rev-parse FETCH_HEAD)" ]] || die "main is not in sync with origin/main (git pull --ff-only)"
 }
 
 restore_baseline() {

@@ -10,7 +10,7 @@ The run ends `errored` during the plan phase of the HCP Terraform run:
 
 ```
 Error: Error making request
-GET https://httpbin.invalid/status/200 giving up after 1 attempt(s): Get "https://httpbin.invalid/status/200": dial tcp: lookup httpbin.invalid ... no such host
+Error making request: GET https://httpbin.invalid/status/200 giving up after 1 attempt(s): Get "https://httpbin.invalid/status/200": dial tcp: lookup httpbin.invalid on <resolver>:53: no such host
 ```
 
 The health-check URL host became `httpbin.invalid`, which can never resolve, so the http provider's request fails while reading `data.http.upstream` during plan.

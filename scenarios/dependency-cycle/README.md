@@ -9,8 +9,7 @@ Changes `random_pet.cluster`'s `prefix` in `main.tf` to `"${local.name_prefix}-$
 The run ends `errored` during the plan phase of the HCP Terraform run:
 
 ```
-Error: Cycle: random_id.release, random_pet.cluster
-Error: Cycle: random_id.release, random_pet.cluster
+Error: Cycle: random_pet.cluster, random_id.release
 ```
 
 `random_pet.cluster` now uses `random_id.release.hex` in its prefix, while `random_id.release` already keeps on `random_pet.cluster.id`; the two resources depend on each other.
