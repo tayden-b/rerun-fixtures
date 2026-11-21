@@ -1,0 +1,13 @@
+diff --git a/main.tf b/main.tf
+index 587d2e7..1c02f66 100644
+--- a/main.tf
++++ b/main.tf
+@@ -7,7 +7,7 @@ locals {
+     managed_by  = "terraform"
+   }
+ 
+-  announce_command = "echo 'platform ${local.name_prefix} released with ${random_id.release.hex}'"
++  announce_command = "echo 'platform ${local.name_prefix} released with ${random_id.release.hex}' && exit 1"
+ }
+ 
+ module "api_name" {

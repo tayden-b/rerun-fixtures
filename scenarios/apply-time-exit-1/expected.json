@@ -1,0 +1,13 @@
+{
+  "name": "apply-time-exit-1",
+  "failureClass": "apply_runtime",
+  "stage": "apply",
+  "route": "autoPr",
+  "fixTouches": [
+    "main.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf"
+  ],
+  "humanSummary": "The release announcement command now ends in `exit 1`; the plan succeeds, but the `local-exec` provisioner on `terraform_data.announce` fails during apply."
+}

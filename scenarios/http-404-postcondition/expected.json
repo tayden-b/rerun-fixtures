@@ -1,0 +1,14 @@
+{
+  "name": "http-404-postcondition",
+  "failureClass": "precondition_failed",
+  "stage": "plan",
+  "route": "autoPr",
+  "fixTouches": [
+    "variables.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf",
+    "main.tf"
+  ],
+  "humanSummary": "The upstream health-check URL now returns HTTP 404, so the postcondition on `data.http.upstream` fails while reading the data source during plan."
+}

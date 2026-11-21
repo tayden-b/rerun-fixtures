@@ -1,0 +1,13 @@
+{
+  "name": "undeclared-reference",
+  "failureClass": "config_reference",
+  "stage": "plan",
+  "route": "autoPr",
+  "fixTouches": [
+    "main.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf"
+  ],
+  "humanSummary": "`random_id.release` refers to `random_pet.clustr`, a typo for `random_pet.cluster`; the referenced resource is not declared."
+}

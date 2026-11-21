@@ -1,0 +1,14 @@
+{
+  "name": "unset-variable",
+  "failureClass": "missing_input",
+  "stage": "plan",
+  "route": "autoPr",
+  "fixTouches": [
+    "variables.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf",
+    "main.tf"
+  ],
+  "humanSummary": "The default was removed from `var.environment` and the workspace sets no value for it, so the plan cannot start."
+}

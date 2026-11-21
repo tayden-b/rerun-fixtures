@@ -1,0 +1,13 @@
+diff --git a/modules/naming/main.tf b/modules/naming/main.tf
+index 7fbff68..d6edf36 100644
+--- a/modules/naming/main.tf
++++ b/modules/naming/main.tf
+@@ -2,7 +2,7 @@ terraform {
+   required_providers {
+     random = {
+       source  = "hashicorp/random"
+-      version = ">= 3.5.0"
++      version = "~> 3.5.0"
+     }
+   }
+ }

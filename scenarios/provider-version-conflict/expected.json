@@ -1,0 +1,13 @@
+{
+  "name": "provider-version-conflict",
+  "failureClass": "provider_version",
+  "stage": "init",
+  "route": "draftPr",
+  "fixTouches": [
+    "modules/naming/main.tf"
+  ],
+  "mustNotTouch": [
+    "versions.tf"
+  ],
+  "humanSummary": "The naming module now requires hashicorp/random `~> 3.5.0` while the root pins `3.9.1`; no version satisfies both, so `terraform init` fails."
+}

@@ -1,0 +1,13 @@
+diff --git a/main.tf b/main.tf
+index 587d2e7..6543a2c 100644
+--- a/main.tf
++++ b/main.tf
+@@ -30,8 +30,6 @@ resource "random_pet" "cluster" {
+ }
+ 
+ resource "random_id" "release" {
+-  byte_length = 4
+-
+   keepers = {
+     cluster = random_pet.cluster.id
+   }
