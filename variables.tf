@@ -1,6 +1,7 @@
 variable "environment" {
   description = "Deployment environment used in names and tags."
   type        = string
+  default     = "dev"
 }
 
 variable "team" {
