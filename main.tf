@@ -47,6 +47,7 @@ resource "tls_private_key" "platform" {
 }
 
 resource "tls_self_signed_cert" "platform" {
+  key_algorithm   = "ECDSA"
   private_key_pem = tls_private_key.platform.private_key_pem
 
   subject {
