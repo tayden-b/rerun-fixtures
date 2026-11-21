@@ -30,6 +30,8 @@ resource "random_pet" "cluster" {
 }
 
 resource "random_id" "release" {
+  byte_length = 4
+
   keepers = {
     cluster = random_pet.cluster.id
   }
