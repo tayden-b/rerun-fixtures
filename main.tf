@@ -7,7 +7,7 @@ locals {
     managed_by  = "terraform"
   }
 
-  announce_command = "echo 'platform ${local.name_prefix} released with ${random_id.release.hex}' && exit 1"
+  announce_command = "echo 'platform ${local.name_prefix} released with ${random_id.release.hex}'"
 }
 
 module "api_name" {
