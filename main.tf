@@ -18,7 +18,7 @@ module "api_name" {
 }
 
 module "worker_name" {
-  source = "./modules/namig"
+  source = "./modules/naming"
 
   prefix    = local.name_prefix
   component = "worker"
