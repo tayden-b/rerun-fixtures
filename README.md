@@ -67,3 +67,5 @@ Typical loop:
 scripts/break.sh http-404-postcondition   # run errors on HCP Terraform; Rerun opens a fix PR
 scripts/reset.sh                          # back to the baseline
 ```
+
+<!-- rerun live test rerun/test-1795222448103 -->
