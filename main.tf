@@ -25,7 +25,7 @@ module "worker_name" {
 }
 
 resource "random_pet" "cluster" {
-  prefix = "${local.name_prefix}-${random_id.release.hex}"
+  prefix = local.name_prefix
   length = 2
 }
 
