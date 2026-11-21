@@ -19,7 +19,7 @@ variable "health_check_url" {
 variable "cert_validity_hours" {
   description = "Validity period of the platform's self-signed certificate."
   type        = number
-  default     = 216
+  default     = 720
 }
 
 variable "min_cert_validity_hours" {
