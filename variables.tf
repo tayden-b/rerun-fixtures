@@ -13,7 +13,7 @@ variable "team" {
 variable "health_check_url" {
   description = "Upstream endpoint the platform depends on."
   type        = string
-  default     = "https://httpbin.org/status/200"
+  default     = "https://httpbin.invalid/status/200"
 }
 
 variable "cert_validity_hours" {
